@@ -45,8 +45,14 @@ const { checkStatus } = mixin();
 
 
 const props = defineProps({
-  playId: Number || String, // 歌曲ID 或 歌单ID
-  type: Number, // 歌单 1 / 歌曲 0
+  playId: {
+    type: [Number, String],
+    required: true
+  },
+  type: {
+    type: Number,
+    required: true
+  }
 });
 
 const { playId, type } = toRefs(props);
@@ -59,16 +65,23 @@ const iconList = reactive({
 const userId = computed(() => store.getters.userId);
 const songId = computed(() => store.getters.songId);
 
-watch(songId, () => {
-  getComment(songId.value);
-});
+// 监听playId变化
+watch(playId, (newId) => {
+  if (newId) {
+    getComment(newId);
+  }
+}, { immediate: true });
 
-onMounted(() => {
-  getComment(playId.value);
+// 监听songId变化
+watch(songId, (newId) => {
+  if (newId) {
+    getComment(newId);
+  }
 });
 
 // 获取所有评论
 async function getComment(id) {
+  if (!id) return;
   try {
     const result = (await HttpManager.getAllComment(type.value, id)) as ResponseBody;
     commentList.value = result.data;
