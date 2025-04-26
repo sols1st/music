@@ -22,21 +22,21 @@ var FileDownloadRouterApp = &FileDownloadRouter{
 func (f *FileDownloadRouter) DownloadFile(ctx *gin.Context) {
 	fileName := ctx.Param("fileName")
 	if fileName == "" {
-		ctx.JSON(400, gin.H{"code": 400, "msg": "文件名不能为空"})
+		ctx.JSON(400, BadRequest("文件名不能为空"))
 		return
 	}
 
 	filePath := filepath.Join(global.UploadConfig.UploadDir, fileName)
 	file, err := os.Open(filePath)
 	if err != nil {
-		ctx.JSON(500, gin.H{"code": 500, "msg": "文件不存在"})
+		ctx.JSON(500, Error("文件不存在"))
 		return
 	}
 	defer file.Close()
 
 	fileInfo, err := file.Stat()
 	if err != nil {
-		ctx.JSON(500, gin.H{"code": 500, "msg": "获取文件信息失败"})
+		ctx.JSON(500, Error("获取文件信息失败"))
 		return
 	}
 
@@ -48,7 +48,7 @@ func (f *FileDownloadRouter) DownloadFile(ctx *gin.Context) {
 
 	_, err = io.Copy(ctx.Writer, file)
 	if err != nil {
-		ctx.JSON(500, gin.H{"code": 500, "msg": "文件下载失败"})
+		ctx.JSON(500, Error("文件下载失败"))
 		return
 	}
 }

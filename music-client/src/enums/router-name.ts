@@ -16,5 +16,5 @@ export const enum RouterName {
   ForgotPassword="/FPassword",
   loginByemail="/loginByemail",
   Recommend="/recommend",
-  RankList="/ranklist",
+  RankList="/rank-list",
 }

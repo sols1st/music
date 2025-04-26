@@ -2,27 +2,28 @@
   <div class="song-container">
     <el-image class="song-pic" fit="contain" :src="attachImageUrl(songPic)" />
     <ul class="song-info">
-      <li>歌手：{{ singerName }}</li>
-      <li>歌曲：{{ songTitle }}</li>
+      <li class="title">歌手：</li>
+      <li class="info">{{ singerName }}</li>
+      <li class="title">歌曲：</li>
+      <li class="info">{{ songTitle }}</li>
     </ul>
   </div>
+
   <div class="container">
     <div class="lyric-container">
       <div class="song-lyric">
         <transition-group name="lyric-fade">
-          <!--有歌词-->
           <ul :style="{ top: lrcTop }" class="has-lyric" v-if="lyricArr.length" key="has-lyric">
             <li v-for="(item, index) in lyricArr" :key="index">
               {{ item[1] }}
             </li>
           </ul>
-          <!--没歌词-->
           <div v-else class="no-lyric" key="no-lyric">
             <span>暂无歌词</span>
           </div>
         </transition-group>
       </div>
-      <comment :playId="songId" :type="0"></comment>
+    <comment :playId="songId" :type="0"></comment>
     </div>
   </div>
 </template>
@@ -60,13 +61,14 @@ export default defineComponent({
         for (let i = 0; i < lyricArr.value.length; i++) {
           if (curTime.value >= lyricArr.value[i][0]) {
             for (let j = 0; j < lyricArr.value.length; j++) {
-              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[j].style.color = "#000";
-              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[j].style.fontSize = "14px";
+              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[j].style.color = "#aab5bd";
+              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[j].style.fontSize = "28px";
+              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[j].style.fontWeight = "bold";
             }
             if (i >= 0) {
               lrcTop.value = -i * 30 + 50 + "px";
-              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[i].style.color = "#95d2f6";
-              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[i].style.fontSize = "18px";
+              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[i].style.color = "#000";
+              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[i].style.fontSize = "30px";
             }
           }
         }
@@ -100,31 +102,36 @@ export default defineComponent({
 
   .song-pic {
     height: 300px;
-    width: 300px;
     border: 4px solid white;
-    border-radius: 12px;
+    border-radius: 15px;
   }
 
   .song-info {
     width: 300px;
-    li {
+    .info{
       width: 100%;
-      line-height: 40px;
-      font-size: 18px;
-      padding-left: 10%;
+      line-height: 50px;
+      font-size: 40px;
+    }
+    .title{
+      margin-top: 20px;
+      width: 100%;
+      line-height: 30px;
+      color: $color-grey;
+      font-size: 30px;
     }
   }
 }
 
 .lyric-container {
   font-family: $font-family;
+  height: content-max;
   .song-lyric {
     position: relative;
-    min-height: 300px;
+    height: 100vh;
     padding: 30px 0;
     overflow: auto;
-    border-radius: 12px;
-    background-color: $color-light-grey;
+    border-radius: 15px;
     display: flex;
     justify-content: center;
     .has-lyric {
@@ -134,8 +141,10 @@ export default defineComponent({
         width: 100%;
         height: 40px;
         text-align: center;
-        font-size: 14px;
+        font-size: 28px;
+        font-weight: bold;
         line-height: 40px;
+        color: $color-grey;
       }
     }
     .no-lyric {

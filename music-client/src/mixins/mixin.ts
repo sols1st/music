@@ -47,10 +47,16 @@ export default function () {
   }
 
   // 播放
-  function playMusic({ id, url, pic, index, name, lyric, currentSongList }) {
+  async function playMusic({ id, url, pic, index, name, lyric, currentSongList }) {
     const songTitle = getSongTitle(name);
     const singerName = getSingerName(name);
-    proxy.$store.dispatch("playMusic", {
+    url = "/source" + url;
+    
+    // 先设置播放状态为true
+    store.commit("setIsPlay", true);
+    
+    // 然后设置音乐信息
+    await proxy.$store.dispatch("playMusic", {
       id,
       url,
       pic,
@@ -79,20 +85,6 @@ export default function () {
     }
     const fileName = getFileName(songUrl);
     const downUrl="/download/"+fileName
-   // const result = (await HttpManager.downloadMusic(downUrl)) as ResponseBody;
-   // console.log(result.data);
-
-    // const eleLink = document.createElement("a");
-    // eleLink.download = `${fileName}`;
-    // eleLink.style.display = "none";
-    // // 字符内容转变成 blob 地址
-    // const blob = new Blob([result.data]);
-    // console.log(blob)
-    // eleLink.href = URL.createObjectURL(blob);
-    // document.body.appendChild(eleLink); // 触发点击
-    // eleLink.click();
-    // document.body.removeChild(eleLink); // 移除
-
       const response = await axios.get(downUrl, {
         responseType: 'blob', // 指定响应类型为二进制数据
       });

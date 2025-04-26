@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from "vue";
-import YinNav from "@/components/layouts/YinNav.vue";
+import YinNav from "@/components/layouts/Nav.vue";
 import PlayList from "@/components/PlayList.vue";
 import { SONGSTYLE } from "@/enums";
 import { HttpManager } from "@/api";
@@ -33,6 +33,7 @@ export default defineComponent({
     const currentPage = ref(1); // 当前页
     const songStyle = ref(SONGSTYLE); // 歌单导航栏类别
     const allPlayList = ref([]); // 歌单
+    console.log(allPlayList.value);
     const data = computed(() => allPlayList.value.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value));
 
     // 获取全部歌单

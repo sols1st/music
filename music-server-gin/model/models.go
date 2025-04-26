@@ -98,18 +98,6 @@ func (*ListSong) TableName() string {
 	return "list_song"
 }
 
-// RankList 排行榜模型
-type RankList struct {
-	ID         uint `gorm:"column:id;primarykey" json:"id"`
-	SongListID uint `gorm:"column:song_list_id;not null" json:"songListId"`
-	ConsumerID uint `gorm:"column:consumer_id;not null" json:"consumerId"`
-	Score      int  `gorm:"column:score;type:int;not null" json:"score"`
-}
-
-func (*RankList) TableName() string {
-	return "rank_list"
-}
-
 // Collect 收藏模型
 type Collect struct {
 	ID         uint      `gorm:"column:id;primarykey" json:"id"`
@@ -154,23 +142,6 @@ type Order struct {
 
 func (*Order) TableName() string {
 	return "order"
-}
-
-// UserSupport 用户支持
-type UserSupport struct {
-	ID         uint      `gorm:"column:id;primarykey" json:"id"`
-	CreateTime time.Time `gorm:"column:create_time" json:"createTime"`
-	UpdateTime time.Time `gorm:"column:update_time" json:"updateTime"`
-	UserID     uint      `gorm:"column:user_id;type:uint;not null" json:"userId"`
-	Type       string    `gorm:"column:type;type:varchar(50);not null" json:"type"`
-	Content    string    `gorm:"column:content;type:text;not null" json:"content"`
-	Status     string    `gorm:"column:status;type:varchar(20);not null" json:"status"`
-	Reply      string    `gorm:"column:reply;type:text" json:"reply"`
-	ReplyTime  time.Time `gorm:"column:reply_time;type:datetime" json:"replyTime"`
-}
-
-func (*UserSupport) TableName() string {
-	return "user_support"
 }
 
 // ResetPasswordRequest 重置密码请求模型

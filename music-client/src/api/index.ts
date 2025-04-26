@@ -21,7 +21,7 @@ const HttpManager = {
 
   // =======================> 歌单 API 完成
   // 获取全部歌单
-  getSongList: () => get("songList"),
+  getSongList: () => get("songList/all"),
   // 获取歌单类型
   getSongListOfStyle: (style) => get(`songList/style/detail?style=${style}`),
   // 返回标题包含文字的歌单
@@ -31,7 +31,7 @@ const HttpManager = {
 
   // =======================> 歌手 API  完成
   // 返回所有歌手
-  getAllSinger: () => get("singer"),
+  getAllSinger: () => get("singer/all"),
   // 通过性别对歌手分类
   getSingerOfSex: (sex) => get(`singer/sex/detail?sex=${sex}`),
 
@@ -44,14 +44,6 @@ const HttpManager = {
   deleteCollection: (userId, songId) => deletes(`collection/delete?userId=${userId}&&songId=${songId}`),
 
   isCollection: ({userId, type, songId}) => post(`collection/status`, {userId, type, songId}),
-
-  // =======================> 评分 API 完成
-  // 提交评分
-  setRank: ({songListId,consumerId,score}) => post(`rankList/add`, {songListId,consumerId,score}),
-  // 获取指定歌单的评分
-  getRankOfSongListId: (songListId) => get(`rankList?songListId=${songListId}`),
-  // 获取指定用户的歌单评分
-  getUserRank: (consumerId, songListId) => get(`/rankList/user?consumerId=${consumerId}&songListId=${songListId}`),
 
   // =======================> 评论 API 完成
   // 添加评论
@@ -78,16 +70,9 @@ const HttpManager = {
   getSongOfSingerId: (id) => get(`song/singer/detail?singerId=${id}`),
   // 返回指定歌手名的歌曲
   getSongOfSingerName: (keywords) => get(`song/singerName/detail?name=${keywords}`),
+  searchSong: (keywords) => get(`song/search?keyword=${keywords}`),
   // 下载音乐
   downloadMusic: (url) => get(url, { responseType: "blob" }),
-
-  //======================> 点赞api的优化 避免有些是重复的点赞！新增数据表了得
-
-  testAlreadySupport:({commentId,userId}) => post(`userSupport/test`, {commentId,userId}),
-
-  deleteUserSupport:({commentId,userId}) => post(`userSupport/delete`, {commentId,userId}),
-
-  insertUserSupport:({commentId,userId}) => post(`userSupport/insert`, {commentId,userId}),
 
   //获取所有的海报
   getBannerList: () => get("banner/getAllBanner")

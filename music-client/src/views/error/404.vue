@@ -1,6 +1,6 @@
 <template>
   <div class="error-page">
-    <div class="error-code">404</div>
+    <div class="error-code">找不到该页面</div>
   </div>
 </template>
 
@@ -18,7 +18,8 @@
 }
 
 .error-code {
-  font-size: 250px;
+  margin: auto;
+  font-size: 100px;
   font-weight: bolder;
   color: #000000;
 }

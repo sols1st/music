@@ -59,33 +59,18 @@ export default defineComponent({
 .play-list {
   padding: 0 1rem;
 
-  // .play-title {
-  //   height: 60px;
-  //   line-height: 60px;
-  //   font-size: 28px;
-  //   font-weight: 500;
-  //   text-align: center;
-  //   color: $color-black;
-  //   box-sizing: border-box;
-  // }
+  .play-title {
+    height: 60px;
+    line-height: 60px;
+    font-size: 28px;
+    font-weight: 500;
+    text-align: center;
+    color: $color-black;
+    box-sizing: border-box;
+  }
 
   .play-body {
     @include layout(flex-start, stretch, row, wrap);
-  }
-}
-
-.play-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 20px;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--color-text);
-  a {
-    font-size: 13px;
-    font-weight: 600;
-    opacity: 0.68;
   }
 }
 
@@ -95,8 +80,7 @@ export default defineComponent({
     height: 0;
     padding-bottom: 100%;
     overflow: hidden;
-    // border-radius: 50px;
-    border-radius: 0.75em;
+    border-radius: 5px;
 
     .card-img {
       width: 100%;

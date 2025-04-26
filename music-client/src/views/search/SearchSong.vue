@@ -30,7 +30,8 @@ export default defineComponent({
         currentSongList.value = [];
         return;
       }
-      const result = (await HttpManager.getSongOfSingerName(value)) as ResponseBody;
+      const result = (await HttpManager.searchSong(value)) as ResponseBody;
+      console.log(result);
       if (!result.data.length) {
         currentSongList.value = [];
         (proxy as any).$message({

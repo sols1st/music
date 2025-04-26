@@ -46,10 +46,11 @@
 <script lang="ts">
 import { defineComponent, reactive, getCurrentInstance } from "vue";
 import mixin from "@/mixins/mixin";
-import YinLoginLogo from "@/components/layouts/YinLoginLogo.vue";
+import YinLoginLogo from "@/components/layouts/LoginLogo.vue";
 import { HttpManager } from "@/api";
 import { getBirth } from "@/utils";
 import { AREA, RouterName, NavName, SignUpRules } from "@/enums";
+import { ElMessage, ElMessageBox } from "element-plus";
 
 export default defineComponent({
   components: {
@@ -102,7 +103,8 @@ export default defineComponent({
           routerManager(RouterName.SignIn, { path: RouterName.SignIn });
         }
       } catch (error) {
-        console.error(error);
+        console.log((error as any).data.msg)
+        // console.error((error as any).data);
       }
     }
 

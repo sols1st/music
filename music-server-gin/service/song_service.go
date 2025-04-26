@@ -51,8 +51,17 @@ func (s *SongService) SongOfSingerId(singerId uint) ([]model.Song, error) {
 
 func (s *SongService) SongOfSingerName(name string) ([]model.Song, error) {
 	var songs []model.Song
-	err := global.DB.Joins("JOIN singers ON songs.singer_id = singers.id").
-		Where("singers.name = ?", name).
+	err := global.DB.Joins("JOIN singer ON song.singer_id = singer.id").
+		Where("singer.name = ?", name).
+		Find(&songs).Error
+	return songs, err
+}
+
+func (s *SongService) SearchSongs(keyword string) ([]model.Song, error) {
+	var songs []model.Song
+	err := global.DB.Joins("JOIN singer ON song.singer_id = singer.id").
+		Where("song.name LIKE ? OR singer.name LIKE ?",
+			"%"+keyword+"%", "%"+keyword+"%").
 		Find(&songs).Error
 	return songs, err
 }

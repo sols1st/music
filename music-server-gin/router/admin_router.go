@@ -12,14 +12,14 @@ type AdminRouter struct{}
 func (s *AdminRouter) LoginStatus(c *gin.Context) {
 	var admin model.Admin
 	if err := c.ShouldBindJSON(&admin); err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(400, BadRequest(err.Error()))
 		return
 	}
 	if !service.AdminServiceApp.VerifyPassword(admin.Name, admin.Password) {
-		c.JSON(500, gin.H{"error": "用户名或密码错误"})
+		c.JSON(500, Error("用户名或密码错误"))
 		return
 	}
-	c.JSON(200, gin.H{"success": "login success"})
+	c.JSON(200, Success("登录成功"))
 }
 
 var AdminRouterApp = new(AdminRouter)

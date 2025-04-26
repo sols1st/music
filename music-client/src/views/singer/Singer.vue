@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from "vue";
-import YinNav from "@/components/layouts/YinNav.vue";
+import YinNav from "@/components/layouts/Nav.vue";
 import PlayList from "@/components/PlayList.vue";
 import { singerStyle } from "@/enums";
 import { HttpManager } from "@/api";

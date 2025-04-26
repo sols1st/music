@@ -9,7 +9,7 @@
   </div>
   <ul class="popular">
     <li v-for="(item, index) in commentList" :key="index">
-      <el-image class="popular-img" fit="contain" :src="attachImageUrl(item.avator)" />
+      <el-image class="popular-img" fit="contain" :src="attachImageUrl(item.avatar)" />
       <div class="popular-msg">
         <ul>
           <li class="name">{{ item.username }}</li>
@@ -17,7 +17,8 @@
           <li class="content">{{ item.content }}</li>
         </ul>
       </div>
-      <div ref="up" class="comment-ctr" @click="setSupport(item.id, item.up, userId)">
+      <!--这特么是直接拿到了评论的id-->
+      <div ref="up" class="comment-ctr" @click="(item.id, item.up, userId)">
         <div><yin-icon :icon="iconList.Support"></yin-icon> {{ item.up }}</div>
         <el-icon v-if="item.userId === userId" @click="deleteComment(item.id, index)"><delete /></el-icon>
       </div>
@@ -74,8 +75,8 @@ async function getComment(id) {
     for (let index = 0; index < commentList.value.length; index++) {
       // 获取评论用户的昵称和头像
       const resultUser = (await HttpManager.getUserOfId(commentList.value[index].userId)) as ResponseBody;
-      commentList.value[index].avator = resultUser.data[0].avator;
-      commentList.value[index].username = resultUser.data[0].username;
+      commentList.value[index].avator = resultUser.data.avator;
+      commentList.value[index].username = resultUser.data.username;
     }
   } catch (error) {
     console.error('[获取所有评论失败]===>', error);
@@ -122,35 +123,6 @@ async function deleteComment(id, index) {
   if (result.success) commentList.value.splice(index, 1);
 }
 
-// 点赞  还得再查一下
-async function setSupport(id, up, userId) {
-  if (!checkStatus()) return;
-
-  let result = null;
-  let operatorR = null;
-  const commentId = id;
-  //当然可以这么左 直接在判断的时候 进行点赞或者取消
-  const r = (await HttpManager.testAlreadySupport({ commentId, userId })) as ResponseBody;
-  (proxy as any).$message({
-    message: r.message,
-    type: r.type,
-    date: r.data,
-  });
-
-  if (r.data) {
-    up = up - 1;
-    operatorR = (await HttpManager.deleteUserSupport({ commentId, userId })) as ResponseBody;
-    result = (await HttpManager.setSupport({ id, up })) as ResponseBody;
-  } else {
-    up = up + 1;
-    operatorR = (await HttpManager.insertUserSupport({ commentId, userId })) as ResponseBody;
-    result = (await HttpManager.setSupport({ id, up })) as ResponseBody;
-  }
-  if (result.success && operatorR.success) {
-    // proxy.$refs.up[index].children[0].style.color = "#2796dd";
-    await getComment(playId.value);
-  }
-}
 
 const attachImageUrl = HttpManager.attachImageUrl;
 </script>

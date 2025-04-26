@@ -7,18 +7,6 @@
     <el-main class="album-main">
       <h1>简介</h1>
       <p>{{ songDetails.introduction }}</p>
-      <!--评分-->
-      <div class="album-score">
-        <div>
-          <h3>歌单评分</h3>
-          <el-rate v-model="rank" allow-half disabled></el-rate>
-        </div>
-        <span>{{ rank * 2 }}</span>
-        <div>
-          <h3>{{ assistText }} {{ score * 2 }}</h3>
-          <el-rate allow-half v-model="score" :disabled="disabledRank" @click="pushValue()"></el-rate>
-        </div>
-      </div>
       <!--歌曲-->
       <song-list class="album-body" :songList="currentSongList"></song-list>
       <comment :playId="songListId" :type="1"></comment>
@@ -50,7 +38,6 @@ export default defineComponent({
     const nowRank = ref(0);
     const disabledRank = ref(false);
     const assistText = ref("评价");
-    // const evaluateList = ref(["很差", "较差", "还行", "推荐", "力推"]);
     const songDetails = computed(() => store.getters.songDetails); // 单个歌单信息
     const nowUserId = computed(() => store.getters.userId);
   
@@ -63,46 +50,9 @@ export default defineComponent({
       for (const item of result.data) {
         // 获取单里的歌曲
         const resultSong = (await HttpManager.getSongOfId(item.songId)) as ResponseBody;
-        currentSongList.value.push(resultSong.data[0]);
+        currentSongList.value.push(resultSong.data);
       }
     }
-    // 获取评分
-    async function getRank(id) {
-      const result = (await HttpManager.getRankOfSongListId(id)) as ResponseBody;
-      nowRank.value = result.data / 2;
-    }
-    async function getUserRank(userId, songListId) {
-      const result = (await HttpManager.getUserRank(userId, songListId)) as ResponseBody;
-      nowScore.value = result.data / 2;
-      disabledRank.value = true;
-      assistText.value = "已评价";
-    }
-    // 提交评分
-    async function pushValue() {
-      if (disabledRank.value || !checkStatus()) return;
-
-      const songListId = nowSongListId.value;
-      var consumerId = nowUserId.value;
-      const score = nowScore.value*2;
-      try {
-        const result = (await HttpManager.setRank({songListId,consumerId,score})) as ResponseBody;
-        (proxy as any).$message({
-          message: result.message,
-          type: result.type,
-        });
-
-        if (result.success) {
-          getRank(nowSongListId.value);
-          disabledRank.value = true;
-          assistText.value = "已评价";
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    getUserRank(nowUserId.value, nowSongListId.value);
-    getRank(nowSongListId.value); // 获取评分
     getSongId(nowSongListId.value); // 获取歌单里面的歌曲ID
 
     return {
@@ -114,7 +64,6 @@ export default defineComponent({
       currentSongList,
       songListId: nowSongListId,
       attachImageUrl: HttpManager.attachImageUrl,
-      pushValue,
     };
   },
 });

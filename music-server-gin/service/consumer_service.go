@@ -1,8 +1,10 @@
 package service
 
 import (
+	"errors"
 	"music-server-gin/global"
 	"music-server-gin/model"
+	"time"
 )
 
 type ConsumerService struct{}
@@ -10,6 +12,13 @@ type ConsumerService struct{}
 var ConsumerServiceApp = new(ConsumerService)
 
 func (s *ConsumerService) AddConsumer(consumer *model.Consumer) error {
+	if err := global.DB.Where("username = ?", consumer.Username).First(&model.Consumer{}).Error; err == nil {
+		return errors.New("用户名已存在")
+	}
+
+	consumer.Avatar = "img/avatorImages/user.jpg"
+	consumer.CreateTime = time.Now()
+	consumer.UpdateTime = time.Now()
 	return global.DB.Create(consumer).Error
 }
 
