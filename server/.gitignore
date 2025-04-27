@@ -19,6 +19,7 @@
 # vendor/
 
 upload/
+log/
 
 # Go workspace file
 go.work

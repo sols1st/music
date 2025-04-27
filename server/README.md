@@ -1,24 +1,35 @@
-# Practice for mysql in golang
+# server for music platform
 
 ## 配置
 ### 在项目根目录新建 config.yaml 格式如下
 ```yaml
 system:
-  port: "8000"
+  port: "3456"
 
 mysql:
-  host: "127.0.0.1"
+  host: "127.0.0.1" 
   port: "3306"
-  db-name: "learndb"
+  db-name: "music-go"
   username: "root"
-  password: "xxxxxx"
+  password: ""
   config: "charset=utf8mb4&parseTime=True&loc=Local"
-```
 
-## 课程选题
-### 在线音乐分享系统
-- 用户注册与登录
-- 专辑与音乐编辑与发布
-- 音乐点唱与评论
-- 注册用户管理
-- 专辑、音乐管理
+upload:
+  upload_dir: "./upload"
+  avatar_dir: "./upload/avatar"
+  song_dir: "./upload/song"
+  song_pic_dir: "./upload/songPic"
+  song_lrc_dir: "./upload/songLrc"
+  singer_pic_dir: "./upload/singer"
+  song_list_pic_dir: "./upload/songListPic"
+  banner_pic_dir: "./upload/banner"
+  max-size: 10 # MB
+  allowed-types:
+    - ".mp3"
+    - ".wav"
+    - ".flac"
+    - ".jpg"
+    - ".png"
+    - ".jpeg"
+
+```
