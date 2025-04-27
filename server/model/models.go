@@ -4,8 +4,8 @@ import (
 	"time"
 )
 
-// Consumer 用户模型
-type Consumer struct {
+// User 用户模型
+type User struct {
 	ID           uint      `gorm:"column:id;primarykey" json:"id"`
 	CreateTime   time.Time `gorm:"column:create_time" json:"createTime"`
 	UpdateTime   time.Time `gorm:"column:update_time" json:"updateTime"`
@@ -20,8 +20,8 @@ type Consumer struct {
 	Avatar       string    `gorm:"column:avatar;type:varchar(255)" json:"avatar"`
 }
 
-func (*Consumer) TableName() string {
-	return "consumer"
+func (*User) TableName() string {
+	return "user"
 }
 
 // Song 歌曲模型
@@ -115,7 +115,7 @@ func (*Collect) TableName() string {
 // Admin 管理员模型
 type Admin struct {
 	ID       uint   `gorm:"column:id;primarykey" json:"id"`
-	Name     string `gorm:"column:name;type:varchar(50);not null" json:"name"`
+	Name     string `gorm:"column:name;type:varchar(50);not null" json:"username"`
 	Password string `gorm:"column:password;type:varchar(100);not null" json:"password"`
 }
 

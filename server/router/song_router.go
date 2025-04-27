@@ -66,7 +66,7 @@ func (s *SongRouter) SongOfId(c *gin.Context) {
 }
 
 func (s *SongRouter) SongOfSingerId(c *gin.Context) {
-	id, err := strconv.Atoi(c.Query("id"))
+	id, err := strconv.Atoi(c.Query("singerId"))
 	if err != nil {
 		c.JSON(400, BadRequest("无效的ID"))
 		return
@@ -200,7 +200,7 @@ func (s *SongRouter) UpdateSongLrc(c *gin.Context) {
 }
 
 func (s *SongRouter) SearchSongs(c *gin.Context) {
-	keyword := c.Query("keyword")
+	keyword := c.Query("keywords")
 	if keyword == "" {
 		c.JSON(400, BadRequest("搜索关键词不能为空"))
 		return

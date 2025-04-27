@@ -1,60 +1,57 @@
-import axios from 'axios'
-import router from '../router'
+import axios from "axios";
+import { ElMessage } from "element-plus";
 
-const BASE_URL = process.env.NODE_HOST
+const BASE_URL = process.env.NODE_HOST;
 
-axios.defaults.timeout = 5000 // 超时时间设置
-axios.defaults.withCredentials = true // true允许跨域
-axios.defaults.baseURL = BASE_URL
-// Content-Type 响应头
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+axios.defaults.timeout = 5000; // 超时时间设置
+axios.defaults.baseURL = BASE_URL;
+axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
 
-// 响应拦截器
 axios.interceptors.response.use(
-  response => {
-    // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
-    // 否则的话抛出错误
+  (response) => {
     if (response.status === 200) {
-      return Promise.resolve(response)
+      return Promise.resolve(response);
     } else {
-      return Promise.reject(response)
+      return Promise.reject(response);
     }
   },
-  // 服务器状态码不是2开头的的情况
-  error => {
+  (error) => {
     if (error.response.status) {
       switch (error.response.status) {
-        // 401: 未登录
-        case 401:
-          router.replace({
-            path: "/",
-            query: {
-              // redirect: router.currentRoute.fullPath
-            },
-          });
-          break;
-        case 403:
-          // console.log('管理员权限已修改请重新登录')
-          // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
-          setTimeout(() => {
-            router.replace({
-              path: "/",
-              query: {
-                // redirect: router.currentRoute.fullPath
-              },
-            });
-          }, 1000);
-          break;
-
-        // 404请求不存在
-        case 404:
-          // console.log('请求页面飞到火星去了')
-          break;
+      case 403:
+        ElMessage("拒绝访问(403)");
+        break;
+      case 404:
+        ElMessage("资源不存在(404)");
+        break;
+      case 408:
+        ElMessage("请求超时(404)");
+        break;
+      case 500:
+        ElMessage("服务器错误(500)");
+        break;
+      case 501:
+        ElMessage("服务未实现(501)");
+        break;
+      case 502:
+        ElMessage("网络错误(502)");
+        break;
+      case 503:
+        ElMessage("服务不可用(503)");
+        break;
+      case 504:
+        ElMessage("网络超时(504)");
+        break;
+      case 505:
+        ElMessage("HTTP版本不受支持(505)");
+        break;
+      default:
+        break;
       }
       return Promise.reject(error.response);
     }
   }
-)
+);
 
 export function getBaseURL() {
   return BASE_URL;
@@ -69,9 +66,9 @@ export function getBaseURL() {
 export function get(url, params?: object) {
   return new Promise((resolve, reject) => {
     axios.get(url, params).then(
-      response => resolve(response.data),
-      error => reject(error)
-    )
+      (response) => resolve(response.data),
+      (error) => reject(error)
+    );
   });
 }
 
@@ -84,8 +81,8 @@ export function get(url, params?: object) {
 export function post(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.post(url, data).then(
-      response => resolve(response.data),
-      error => reject(error)
+      (response) => resolve(response.data),
+      (error) => reject(error)
     );
   });
 }
@@ -99,8 +96,8 @@ export function post(url, data = {}) {
 export function deletes(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.delete(url, data).then(
-      response => resolve(response.data),
-      error => reject(error)
+      (response) => resolve(response.data),
+      (error) => reject(error)
     );
   });
 }
@@ -114,8 +111,8 @@ export function deletes(url, data = {}) {
 export function put(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.put(url, data).then(
-      response => resolve(response.data),
-      error => reject(error)
+      (response) => resolve(response.data),
+      (error) => reject(error)
     );
   });
 }

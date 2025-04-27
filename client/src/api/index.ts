@@ -2,7 +2,7 @@ import { getBaseURL, get, post, deletes } from "./request";
 
 const HttpManager = {
   // 获取图片信息
-  attachImageUrl: (url) => url ? `${getBaseURL()}${url}` : "https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png",
+  attachImageUrl: (url) => url ? `${getBaseURL()}${url}` : `${getBaseURL()}${"/img/avatar/user.jpg"}`,
   // =======================> 用户 API 完成
   // 登录
   signIn: ({username,password}) => post(`user/login/status`, {username,password}),
@@ -69,10 +69,11 @@ const HttpManager = {
   // 返回指定歌曲ID的歌曲
   getSongOfId: (id) => get(`song/detail?id=${id}`),
   // 返回指定歌手ID的歌曲
-  getSongOfSingerId: (id) => get(`song/singer/detail?singerId=${id}`),
+  getSongOfSingerId: (singerId) => get(`song/singer/detail?singerId=${singerId}`),
   // 返回指定歌手名的歌曲
-  getSongOfSingerName: (keywords) => get(`song/singerName/detail?name=${keywords}`),
-  searchSong: (keywords) => get(`song/search?keyword=${keywords}`),
+  getSongOfSingerName: (name) => get(`song/singerName/detail?name=${name}`),
+  // 搜索歌曲
+  searchSong: (keywords) => get(`song/search?keywords=${keywords}`),
   // 下载音乐
   downloadMusic: (url) => get(url, { responseType: "blob" }),
 

@@ -5,12 +5,12 @@
       <el-input v-model="searchWord" placeholder="筛选用户"></el-input>
     </div>
 
-    <el-table height="550px" border size="small" :data="data" @selection-change="handleSelectionChange">
+    <el-table border size="small" :data="data" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40" align="center"></el-table-column>
       <el-table-column label="ID" prop="id" width="50" align="center"></el-table-column>
       <el-table-column label="用户头像" width="102" align="center">
         <template v-slot="scope">
-          <img :src="attachImageUrl(scope.row.avator)" style="width: 80px" />
+          <img :src="attachImageUrl(scope.row.avatar)" style="width: 80px" />
         </template>
       </el-table-column>
       <el-table-column label="用户名" prop="username" width="80" align="center"></el-table-column>
@@ -42,7 +42,7 @@
         
     <template v-slot="scope">
       <el-upload
-        :action="'http://localhost:8888/user/avatar/update?id=' + scope.row.id" 
+        :action="'http://localhost:3456/user/avatar/update?id=' + scope.row.id" 
         :show-file-list="false"
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload">
@@ -87,7 +87,7 @@ export default defineComponent({
 
     const tableData = ref([]); // 记录歌曲，用于显示
     const tempDate = ref([]); // 记录歌曲，用于搜索时能临时记录一份歌曲列表
-    const pageSize = ref(5); // 页数
+    const pageSize = ref(10); // 页数
     const currentPage = ref(1); // 当前页
 
     // 计算当前表格中的数据

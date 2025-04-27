@@ -99,16 +99,16 @@ func SetupRouter() *gin.Engine {
 	// 用户相关路由
 	UserGroup := r.Group("/user")
 	{
-		UserGroup.POST("/add", ConsumerRouterApp.AddUser)
-		UserGroup.POST("/login/status", ConsumerRouterApp.LoginStatus)
-		UserGroup.POST("/email/status", ConsumerRouterApp.LoginEmailStatus)
-		UserGroup.POST("/resetPassword", ConsumerRouterApp.ResetPassword)
-		UserGroup.GET("/all", ConsumerRouterApp.AllUser)
-		UserGroup.GET("/detail", ConsumerRouterApp.UserOfId)
-		UserGroup.GET("/delete", ConsumerRouterApp.DeleteUser)
-		UserGroup.POST("/update", ConsumerRouterApp.UpdateUserMsg)
-		UserGroup.POST("/updatePassword", ConsumerRouterApp.UpdatePassword)
-		UserGroup.POST("/avatar/update", ConsumerRouterApp.UpdateUserAvatar)
+		UserGroup.POST("/add", UserRouterApp.AddUser)
+		UserGroup.POST("/login/status", UserRouterApp.LoginStatus)
+		UserGroup.POST("/email/status", UserRouterApp.LoginEmailStatus)
+		UserGroup.POST("/resetPassword", UserRouterApp.ResetPassword)
+		UserGroup.GET("/all", UserRouterApp.AllUser)
+		UserGroup.GET("/detail", UserRouterApp.UserOfId)
+		UserGroup.GET("/delete", UserRouterApp.DeleteUser)
+		UserGroup.POST("/update", UserRouterApp.UpdateUserMsg)
+		UserGroup.POST("/updatePassword", UserRouterApp.UpdatePassword)
+		UserGroup.POST("/avatar/update", UserRouterApp.UpdateUserAvatar)
 	}
 
 	// 轮播图相关路由

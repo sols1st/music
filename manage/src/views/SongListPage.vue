@@ -6,7 +6,7 @@
       <el-button type="primary" @click="centerDialogVisible = true">添加歌单</el-button>
       <el-button type="primary" @click="exportPlaylist">导出歌单</el-button>
     </div>
-    <el-table height="550px" border size="small" :data="data" @selection-change="handleSelectionChange">
+    <el-table border size="small" :data="data" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40" align="center"></el-table-column>
       <el-table-column label="ID" prop="id" width="50" align="center"></el-table-column>
       <el-table-column label="歌单图片" width="110" align="center">
@@ -119,7 +119,7 @@ export default defineComponent({
 
     const tableData = ref([]); // 记录歌曲，用于显示
     const tempDate = ref([]); // 记录歌曲，用于搜索时能临时记录一份歌曲列表
-    const pageSize = ref(5); // 页数
+    const pageSize = ref(10); // 页数
     const currentPage = ref(1); // 当前页
 
     // 计算当前表格中的数据
