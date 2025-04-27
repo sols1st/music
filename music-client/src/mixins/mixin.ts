@@ -33,6 +33,7 @@ export default function () {
     return str.split("-")[0];
   }
 
+
   // 判断登录状态
   function checkStatus(status?: boolean) {
     if (!token.value) {
@@ -48,6 +49,14 @@ export default function () {
 
   // 播放
   async function playMusic({ id, url, pic, index, name, lyric, currentSongList }) {
+    if (!url) {
+      (proxy as any).$message({
+        message: "音频源无效",
+        type: "error",
+      });
+      return;
+    }
+
     const songTitle = getSongTitle(name);
     const singerName = getSingerName(name);
     url = "/source" + url;

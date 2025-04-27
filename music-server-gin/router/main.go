@@ -90,9 +90,9 @@ func SetupRouter() *gin.Engine {
 	// 收藏相关路由
 	CollectGroup := r.Group("/collection")
 	{
-		CollectGroup.POST("/add", CollectRouterApp.AddCollect)
-		CollectGroup.DELETE("/delete", CollectRouterApp.DeleteCollect)
-		CollectGroup.POST("/status", CollectRouterApp.IsCollect)
+		CollectGroup.POST("/add", CollectRouterApp.AddCollection)
+		CollectGroup.DELETE("/delete", CollectRouterApp.DeleteCollection)
+		CollectGroup.POST("/status", CollectRouterApp.IsCollection)
 		CollectGroup.GET("/detail", CollectRouterApp.CollectOfUserId)
 	}
 
@@ -103,13 +103,12 @@ func SetupRouter() *gin.Engine {
 		UserGroup.POST("/login/status", ConsumerRouterApp.LoginStatus)
 		UserGroup.POST("/email/status", ConsumerRouterApp.LoginEmailStatus)
 		UserGroup.POST("/resetPassword", ConsumerRouterApp.ResetPassword)
-		UserGroup.GET("/sendVerificationCode", ConsumerRouterApp.SendCode)
 		UserGroup.GET("/all", ConsumerRouterApp.AllUser)
 		UserGroup.GET("/detail", ConsumerRouterApp.UserOfId)
 		UserGroup.GET("/delete", ConsumerRouterApp.DeleteUser)
 		UserGroup.POST("/update", ConsumerRouterApp.UpdateUserMsg)
 		UserGroup.POST("/updatePassword", ConsumerRouterApp.UpdatePassword)
-		UserGroup.POST("/avatar/update", ConsumerRouterApp.UpdateUserPic)
+		UserGroup.POST("/avatar/update", ConsumerRouterApp.UpdateUserAvatar)
 	}
 
 	// 轮播图相关路由

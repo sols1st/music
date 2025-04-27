@@ -17,7 +17,7 @@ type Consumer struct {
 	Birth        time.Time `gorm:"column:birth;type:date" json:"birth"`
 	Introduction string    `gorm:"column:introduction;type:text" json:"introduction"`
 	Location     string    `gorm:"column:location;type:varchar(100)" json:"location"`
-	Avatar       string    `gorm:"column:avatar;type:varchar(255)" json:"avator"`
+	Avatar       string    `gorm:"column:avatar;type:varchar(255)" json:"avatar"`
 }
 
 func (*Consumer) TableName() string {
@@ -133,7 +133,6 @@ func (*Banner) TableName() string {
 	return "banner"
 }
 
-// Order 订单模型
 type Order struct {
 	ID       uint   `gorm:"column:id;primarykey" json:"id"`
 	Name     string `gorm:"column:name;type:varchar(100);not null" json:"name"`

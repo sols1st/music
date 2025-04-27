@@ -19,6 +19,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/Home.vue"),
       },
       {
+        path: "/rank-list",
+        name: "rank-list",
+        component: () => import("@/views/RankList.vue"),
+      },
+      {
+        path: "/recommend",
+        name: "recommend",
+        component: () => import("@/views/Recommend.vue"),
+      },
+      {
         path: "/sign-in",
         name: "sign-in",
         component: () => import("@/views/SignIn.vue"),

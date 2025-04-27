@@ -106,6 +106,10 @@ export default {
       commit("setSingerName", singerName);
       commit("setLyric", lyric);
       commit("setCurrentPlayList", currentSongList);
+      
+      commit("setIsPlay", true);
+      
+      commit("setPlayBtnIcon", Icon.ZANTING);
     },
   },
 };

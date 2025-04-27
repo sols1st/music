@@ -9,6 +9,7 @@
     @ended="ended"
     @play="handlePlay"
     @pause="handlePause"
+    @error="handleError"
   >
     <!--（1）属性：controls，preload（2）事件：canplay，timeupdate，ended（3）方法：play()，pause() -->
     <!--controls：向用户显示音频控件（播放/暂停/进度条/音量）-->
@@ -115,6 +116,16 @@ export default defineComponent({
       // 可以在这里添加暂停时的逻辑
     }
 
+    // 处理错误事件
+    function handleError(error) {
+      console.error('音频播放错误:', error);
+      (proxy as any).$message({
+        message: "音频播放失败，请检查音频源",
+        type: "error",
+      });
+      proxy.$store.commit("setIsPlay", false);
+    }
+
     return {
       songUrl,
       player,
@@ -124,6 +135,7 @@ export default defineComponent({
       muted,
       handlePlay,
       handlePause,
+      handleError,
       attachImageUrl: HttpManager.attachImageUrl,
     };
   },

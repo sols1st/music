@@ -16,30 +16,77 @@ var CollectRouterApp = &CollectRouter{
 	service: service.CollectServiceApp,
 }
 
-func (c *CollectRouter) AddCollect(ctx *gin.Context) {
-	var collect model.Collect
-	if err := ctx.ShouldBindJSON(&collect); err != nil {
-		ctx.JSON(400, BadRequest("参数错误"))
+// IsCollection 检查是否已收藏
+func (c *CollectRouter) IsCollection(ctx *gin.Context) {
+	var request struct {
+		UserID uint   `json:"userId"`
+		Type   string `json:"type"`
+		SongID uint   `json:"songId"`
+	}
+
+	if err := ctx.ShouldBindJSON(&request); err != nil {
+		ctx.JSON(400, BadRequest("参数错误: "+err.Error()))
 		return
 	}
-	if err := c.service.AddCollect(&collect); err != nil {
-		ctx.JSON(500, Error("添加失败"))
+
+	isCollect, err := c.service.IsCollection(request.UserID, request.Type, request.SongID)
+	if err != nil {
+		ctx.JSON(500, Error("检查失败: "+err.Error()))
+		return
+	}
+
+	ctx.JSON(200, Success(isCollect))
+}
+
+// AddCollection 添加收藏
+func (c *CollectRouter) AddCollection(ctx *gin.Context) {
+	var collect model.Collect
+	if err := ctx.ShouldBindJSON(&collect); err != nil {
+		ctx.JSON(400, BadRequest("参数错误: "+err.Error()))
+		return
+	}
+
+	if err := c.service.AddCollection(&collect); err != nil {
+		ctx.JSON(500, Error("添加失败: "+err.Error()))
 		return
 	}
 	ctx.JSON(200, Success("添加成功"))
 }
 
-func (c *CollectRouter) DeleteCollect(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Query("id"))
-	if err != nil {
-		ctx.JSON(400, BadRequest("参数错误"))
+// DeleteCollection 删除收藏
+func (c *CollectRouter) DeleteCollection(ctx *gin.Context) {
+	var request struct {
+		UserID uint   `json:"userId"`
+		Type   string `json:"type"`
+		SongID uint   `json:"songId"`
+	}
+
+	if err := ctx.ShouldBindJSON(&request); err != nil {
+		ctx.JSON(400, BadRequest("参数错误: "+err.Error()))
 		return
 	}
-	if err := c.service.DeleteCollect(uint(id)); err != nil {
-		ctx.JSON(500, Error("删除失败"))
+
+	if err := c.service.DeleteCollection(request.UserID, request.Type, request.SongID); err != nil {
+		ctx.JSON(500, Error("删除失败: "+err.Error()))
 		return
 	}
 	ctx.JSON(200, Success("删除成功"))
+}
+
+// CollectionOfUser 获取用户的收藏
+func (c *CollectRouter) CollectionOfUser(ctx *gin.Context) {
+	userId, err := strconv.Atoi(ctx.Query("userId"))
+	if err != nil {
+		ctx.JSON(400, BadRequest("参数错误: "+err.Error()))
+		return
+	}
+
+	collects, err := c.service.CollectionOfUser(uint(userId))
+	if err != nil {
+		ctx.JSON(500, Error("获取失败: "+err.Error()))
+		return
+	}
+	ctx.JSON(200, Success(collects))
 }
 
 func (c *CollectRouter) CollectOfUserId(ctx *gin.Context) {

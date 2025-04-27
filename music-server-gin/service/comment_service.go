@@ -3,11 +3,14 @@ package service
 import (
 	"music-server-gin/global"
 	"music-server-gin/model"
+	"time"
 )
 
-type CommentService struct {}
+type CommentService struct{}
 
 func (s *CommentService) AddComment(comment *model.Comment) error {
+	// 添加createTime
+	comment.CreateTime = time.Now()
 	return global.DB.Create(comment).Error
 }
 

@@ -8,7 +8,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type SongRouter struct{}
+type SongRouter struct {
+	service *service.SongService
+}
+
+var SongRouterApp = &SongRouter{
+	service: service.SongServiceApp,
+}
+
+func (s *SongRouter) AllSong(ctx *gin.Context) {
+	songs, err := s.service.AllSong()
+	if err != nil {
+		ctx.JSON(500, Error("获取失败: "+err.Error()))
+		return
+	}
+	ctx.JSON(200, Success(songs))
+}
 
 func (s *SongRouter) AddSong(c *gin.Context) {
 	var song model.Song
@@ -34,15 +49,6 @@ func (s *SongRouter) DeleteSong(c *gin.Context) {
 		return
 	}
 	c.JSON(200, Success("删除成功"))
-}
-
-func (s *SongRouter) AllSong(c *gin.Context) {
-	songs, err := service.SongServiceApp.AllSong()
-	if err != nil {
-		c.JSON(500, Error(err.Error()))
-		return
-	}
-	c.JSON(200, Success(songs))
 }
 
 func (s *SongRouter) SongOfId(c *gin.Context) {
@@ -207,5 +213,3 @@ func (s *SongRouter) SearchSongs(c *gin.Context) {
 	}
 	c.JSON(200, Success(songs))
 }
-
-var SongRouterApp = new(SongRouter)

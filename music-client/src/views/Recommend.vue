@@ -1,6 +1,6 @@
 <template>
   <div class="ranklist">
-    <div class="title">歌曲热榜</div>
+    <div class="title">私人推荐</div>
     <song-list :songList="songList" @changeData="getAllSong"></song-list>
   </div>
 </template>

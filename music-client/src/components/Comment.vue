@@ -17,7 +17,6 @@
           <li class="content">{{ item.content }}</li>
         </ul>
       </div>
-      <!--这特么是直接拿到了评论的id-->
       <div ref="up" class="comment-ctr" @click="(item.id, item.up, userId)">
         <div><yin-icon :icon="iconList.Support"></yin-icon> {{ item.up }}</div>
         <el-icon v-if="item.userId === userId" @click="deleteComment(item.id, index)"><delete /></el-icon>
@@ -63,6 +62,7 @@ const iconList = reactive({
 });
 
 const userId = computed(() => store.getters.userId);
+console.log("userId", userId.value);
 const songId = computed(() => store.getters.songId);
 
 // 监听playId变化
@@ -88,7 +88,7 @@ async function getComment(id) {
     for (let index = 0; index < commentList.value.length; index++) {
       // 获取评论用户的昵称和头像
       const resultUser = (await HttpManager.getUserOfId(commentList.value[index].userId)) as ResponseBody;
-      commentList.value[index].avator = resultUser.data.avator;
+      commentList.value[index].avatar = resultUser.data.avatar;
       commentList.value[index].username = resultUser.data.username;
     }
   } catch (error) {
@@ -106,10 +106,10 @@ async function submitComment() {
   let nowType = null;
   if (type.value === 1) {
     nowType = 1;
-    songListId = `${playId.value}`;
+    songListId = Number(`${playId.value}`);
   } else if (type.value === 0) {
     nowType = 0;
-    songId = `${playId.value}`;
+    songId = Number(`${playId.value}`);
   }
 
   const content = textarea.value;
@@ -174,6 +174,7 @@ const attachImageUrl = HttpManager.attachImageUrl;
 
 /*热门评论*/
 .popular {
+  margin-bottom: 60px;
   width: 100%;
   > li {
     border-bottom: solid 1px rgba(0, 0, 0, 0.1);

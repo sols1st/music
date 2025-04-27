@@ -5,7 +5,7 @@ import router from "./router";
 import store from "./store";
 import "element-plus/dist/index.css";
 import "./assets/css/index.scss";
-import { setupSvgIcon } from "./assets/icons/index.js";
+import "./assets/icons/index.js";
 
 import { Store } from "vuex";
 
@@ -20,7 +20,6 @@ declare module "@vue/runtime-core" {
 }
 
 const app = createApp(App);
-setupSvgIcon(app);
 
 app.use(store)
    .use(router)

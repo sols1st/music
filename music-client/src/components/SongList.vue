@@ -60,7 +60,6 @@
         like: Icon.Like,
       });
   
-      console.log("songList", songList.value);
       const songUrl = computed(() => store.getters.songUrl);
       const singerName = computed(() => store.getters.singerName);
       const songTitle = computed(() => store.getters.songTitle);
@@ -76,6 +75,13 @@
       });
   
       function handleClick(row) {
+        if (!row.url) {
+          (proxy as any).$message({
+            message: "音频源无效",
+            type: "error",
+          });
+          return;
+        }
         playMusic({
           id: row.id,
           url: row.url,
